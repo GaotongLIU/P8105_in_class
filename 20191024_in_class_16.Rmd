@@ -48,3 +48,36 @@ z_score(y)
 
 ```
 
+## Multiple outputs
+```{r}
+mean_and_sd = function(x){
+  if(!is.numeric(x)){
+    stop("x shoulb be numeric")
+    }
+  else if(length(x) == 1){
+    stop("Z scores cannot be computed for length 1 vectors")
+    }
+  tibble(
+   mean_input = mean(x),
+   sd_input = sd(x)
+   )
+}
+
+mean_and_sd = function(x){
+  if(!is.numeric(x)){
+    stop("x shoulb be numeric")
+    }
+  else if(length(x) == 1){
+    stop("Z scores cannot be computed for length 1 vectors")
+    }
+  list(
+   mean_input = mean(x),
+   sd_input = sd(x),
+   z_score = (x - mean(x))/sd(x)
+   )
+}
+
+mean_and_sd(y)
+```
+
+## Hi
