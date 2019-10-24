@@ -1,0 +1,169 @@
+---
+title: "20190919_in_class_6"
+author: "Gaotong LIU"
+date: "9/19/2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+```
+
+## Import dataset
+```{r}
+litters_data = read_csv(".data/FAS_litters.csv")
+litters_data = janitor::clean_names(litters_data)
+
+pups_data = read_csv(".data/FAS_pups.csv")
+pups_data = janitor::clean_names(pups_data)
+```
+
+## Selection
+```{r}
+select(litters_data, group, litter_number, gd0_weight, pups_born_alive)
+select(litters_data, group, litter_number, gd0_weight, starts_with("pups"))
+
+select(litters_data, litter_number, group)
+select(litters_data, litter_number, group, everything())
+select(litters_data, -group)
+
+select(litters_data, GROUP = group, litter_number)
+rename(litters_data, Group = group)
+
+litters_selected = select(litters_data, litter_number, gd0_weight:pups_born_alive)
+
+```
+
+## Filter
+```{r}
+filter(litters_data, group == "Mod8")
+filter(litters_data, gd_of_birth == 20)
+filter(litters_data, gd_of_birth <= 20)
+filter(litters_data, gd_of_birth == 20, group == "Con7")
+
+filter(litters_data, group == "Con7"| group == "Con8")
+filter(litters_data, group %in% c("Con7", "Con8"))
+filter(litters_data, group == c("Con7", "Con8"))
+filter(litters_data, gd0_weight + gd18_weight>70)
+filter(litters_data, gd0_weight > gd18_weight)
+#not good
+filter(litters_data, !is.na(gd0_weight))
+#good
+drop_na(litters_data)
+drop_na(litters_data, gd0_weight)
+```
+
+## Mutate
+
+```{r}
+mutate(litters_data, wt_gain = gd18_weight - gd0_weight,
+       group = str_to_lower(group))
+```
+
+## Arrange
+
+```{r}
+# review the data/ print
+arrange(litters_data, pups_born_alive)
+arrange(litters_data, desc(pups_born_alive))
+
+arrange(litters_data, pups_born_alive, gd0_weight)
+```
+
+## Pipe
+```{r}
+# create a collection of commands
+
+litters_data = 
+  read_csv(".data/FAS_litters.csv") %>% 
+  janitor::clean_names() %>% 
+  select(-pups_survive) %>% 
+  mutate(
+    wt_gain = gd18_weight - gd0_weight,
+       group = str_to_lower(group)) %>% 
+  drop_na(gd0_weight)
+  
+```
+
+```{r , eval=FALSE}
+litters_data %>% view()
+litters_data %>% pull(gd0_weight)
+```
+
+```{r}
+## do not worry now
+litters_data = 
+  read_csv(".data/FAS_litters.csv") %>% 
+  janitor::clean_names(dat =  .) %>% 
+  select(.data =  ., -pups_survive) %>% 
+  lm(gd0_weight ~ gd18_weight, data = .)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

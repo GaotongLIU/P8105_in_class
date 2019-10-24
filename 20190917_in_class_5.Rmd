@@ -1,0 +1,82 @@
+---
+title: "20190917_inclass_5"
+author: "Gaotong LIU"
+date: "9/17/2019"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+```
+
+
+## load in a litters dataset
+```{r}
+## reads in a dataset
+# absolute path
+#Klitters_data = read_csv("/Users/gloria/Desktop/20190912_in_class_4:5/data_import_examples_5/FAS_litters.csv")
+# relative path
+litters_data = read_csv(file = "./data/FAS_litters.csv")
+# view
+view(litters_data)
+#rewrite_reform_little case
+litters_data = janitor::clean_names(litters_data)
+
+```
+
+## load in the pups data
+```{r}
+pups_data = read_csv("./data/FAS_pups.csv",skip = 10, col_names = FALSE)
+pups_data = janitor::clean_names(pups_data)
+head(pups_data)
+tail(pups_data)
+#summary with histogram
+skimr::skim(pups_data)
+```
+
+## parsing with column specification
+```{r}
+litters_data = read_csv(file = ".data/FAS_litters.csv")
+## Parsed with column specification: space not recognized by R as column names
+ cols(
+   Group = col_character(),
+   `Litter Number` = col_character(),
+   `GD0 weight` = col_double(),
+   `GD18 weight` = col_double(),
+   `GD of Birth` = col_double(),
+   `Pups born alive` = col_double(),
+   `Pups dead @ birth` = col_double(),
+   `Pups survive` = col_double()
+ )
+
+```
+
+## read in an excel files
+```{r}
+# Sheet and range argument
+library(readxl)
+mlb11_data_subset = read_excel(
+  path = ".data/mlb11.xlsx",
+  range = "A1:D7")
+```
+
+## Read in SAS
+```{r}
+library(haven)
+pulse_data = read_sas(".data/public_pulse_data.sas7bdat")
+```
+## Write csv
+```{r}
+write_csv(mlb11_data_subset,"mlb11_data_subset.csv")
+read_csv("mlb11_data_subset.csv")
+```
+
+
+
+
+
+
