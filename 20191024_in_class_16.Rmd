@@ -166,3 +166,14 @@ dynamite_reviews = bind_rows(
 
 ```
 
+## scoping names
+```{r}
+f = function(x) 
+  { z= x+ y
+   z
+   }
+x = 1
+y = 2
+f(x = y)
+```
+
